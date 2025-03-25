@@ -1,34 +1,35 @@
 services:
-	db:
-		image: postgres:latest
-		ports:
-			- "5432:5432"
-		volumes:
-			- postgres_data:/var/lib/postgresql/data
-		env_file:
-			- .env
-	django_gunicorn:
-		image: python:3.14.0a6-bullseye
-		volumes:
-			- static:/static
-		env_file:
-			- .env
-		build:
-			context: .
-		ports:
-			- "8000:8000"
-		depends_on:
-			- db
-	nginx:
-		image: nginx:latest
-		build: ./nginx
-		volumes:
-			- static:/static
-		ports:
-			- "80:80"
-		depends_on:
-			- django_gunicorn
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+  django_gunicorn:
+    image: python:3.14-rc-bullseye⁠
+    volumes:
+      - static:/static
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  nginx:
+    image: nginx:latest
+    build:
+      context: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - django_gunicorn
 
 volumes:
-	static:
-	postgres_data:
+  static:
+  postgres_data:
