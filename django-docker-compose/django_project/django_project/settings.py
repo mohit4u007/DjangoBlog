@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-# import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,13 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'w9n5xrs!#m7*28jwti1ei7ae58vn4j1d^ooi!#vly&o10*o4wu'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
-# ALLOWED_HOSTS = ['mohit-django-project.herokuapp.com']
 ALLOWED_HOSTS = ['*']
 
 
@@ -37,7 +34,7 @@ INSTALLED_APPS = [
 	'blog.apps.BlogConfig',
 	'users.apps.UsersConfig',
 	'crispy_forms',
-    'crispy_bootstrap4',
+    'crispy_bootstrap5',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -86,6 +83,18 @@ DATABASES = {
 		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 	}
 }
+'''
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.{os.environ.get("DATABASE_ENGINE")}',
+		'NAME': os.environ.get('DATABASE_NAME'),
+		'USER': os.environ.get('DATABASE_USERNAME'),
+		'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+		'HOST': os.environ.get('DATABASE_HOST'),
+		'PORT': os.environ.get('DATABASE_PORT'),
+	}
+}
+'''
 
 
 # Password validation
@@ -124,13 +133,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # For PROD deployment
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # For Heroku PROD deployment
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
