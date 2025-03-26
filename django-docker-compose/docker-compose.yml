@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:latest
+    container_name: postgres
     ports:
       - "5432:5432"
     volumes:
@@ -8,6 +9,7 @@ services:
     env_file:
       - .env
   django_gunicorn:
+    container_name: django_gunicorn
     volumes:
       - static:/static
     env_file:
@@ -19,12 +21,13 @@ services:
     depends_on:
       - db
   nginx:
+    container_name: django_nginx
     build:
       context: ./nginx
     volumes:
       - static:/static
     ports:
-      - "80:80"
+      - "80:8000"
     depends_on:
       - django_gunicorn
 
